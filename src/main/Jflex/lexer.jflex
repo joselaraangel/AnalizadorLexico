@@ -5,6 +5,7 @@ import java.io.FileReader;
 %public
 %class Lexer
 %standalone
+
         
 %{
             private List<String> tokens = new ArrayList<>();
@@ -34,10 +35,11 @@ import java.io.FileReader;
 %}
         
 %%
-":"     {tokens.add(":"); System.out.println("Dos Puntos");}
-";"     {tokens.add(";"); System.out.println("Punto y Coma");}
-[A-Za-z]|[0-9] {tokens.add("ID"); System.out.println("Identificador");}
+[0-9]|"-" [0-9]+|"+" [0-9]+ {tokens.add("INT"); System.out.println("Entero");}
+[0-9] "E" [0-9]|[0-9] "e" [0-9]|[0-9] "." [0-9] "e" [0-9]|[0-9] "." [0-9] "E" [0-9] {tokens.add("PTO_FLOT"); System.out.println("Punto flotante");}
+"'" [A-Za-z0-9&_]+ "'"|[a-z]+ "_" [a-z0-9]+|[!$&]+ {tokens.add("ATOM"); System.out.println("Atomo");}
+"_" [A-Z0-9]+|[A-Z]|"A-Z" [a-z0-9]+ {tokens.add("VAR"); System.out.println("Variable");}
 "=="    {tokens.add("=="); System.out.println("Igual");}
-"<"     {tokens.add("<"); System.out.println("Menor que");}
+[0-9]+ "." [0-9]+|[0-9]+ "." {tokens.add("PTO_FIJO"); System.out.println("Punto fijo");}
 ">"     {tokens.add(">"); System.out.println("Mayor que");}
-"%"     {tokens.add("%"); System.out.println("Porcentaje");}
+"%%"     {tokens.add("%%"); System.out.println("Mod");}
